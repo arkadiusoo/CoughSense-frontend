@@ -380,6 +380,48 @@ audio {
   color: var(--accent-dark);
 }
 
+.regulatory {
+  margin-top: 8px;
+  padding-top: 16px;
+  border-top: 1px dashed var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.regulatory-title {
+  margin: 0;
+  font-weight: 600;
+}
+
+.regulatory-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px;
+}
+
+.regulatory-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: #f2f8f4;
+}
+
+.regulatory-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.regulatory-value {
+  font-weight: 600;
+  color: var(--accent-dark);
+}
+
 h1 {
   margin: 0;
   font-family: "Newsreader", "Times New Roman", serif;

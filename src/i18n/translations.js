@@ -30,6 +30,13 @@ export const translations = {
     languagePolishLabel: "Switch to Polish",
     languageSpanishLabel: "Switch to Spanish",
     languageGermanLabel: "Switch to German",
+    regulatoryTitle: "Regulatory placeholders",
+    regulatoryDescription: "Reserved space for EU medical device markings.",
+    regulatoryCeLabel: "CE mark",
+    regulatoryUdiDiLabel: "UDI-DI",
+    regulatoryUdiPiLabel: "UDI-PI",
+    regulatoryClassLabel: "Risk class",
+    regulatoryPlaceholder: "Placeholder",
     simulatedResults: [
       "Healthy cough profile detected.",
       "Possible mild bronchitis signature detected.",
@@ -68,6 +75,14 @@ export const translations = {
     languagePolishLabel: "Zmień na polski",
     languageSpanishLabel: "Zmień na hiszpański",
     languageGermanLabel: "Zmień na niemiecki",
+    regulatoryTitle: "Miejsce na oznaczenia",
+    regulatoryDescription:
+      "Przestrzeń zarezerwowana na oznakowanie wyrobu medycznego w UE.",
+    regulatoryCeLabel: "Znak CE",
+    regulatoryUdiDiLabel: "UDI-DI",
+    regulatoryUdiPiLabel: "UDI-PI",
+    regulatoryClassLabel: "Klasa ryzyka",
+    regulatoryPlaceholder: "Placeholder",
     simulatedResults: [
       "Wykryto zdrowy profil kaszlu.",
       "Możliwy łagodny wzorzec zapalenia oskrzeli.",
@@ -106,6 +121,14 @@ export const translations = {
     languagePolishLabel: "Cambiar a polaco",
     languageSpanishLabel: "Cambiar a español",
     languageGermanLabel: "Cambiar a alemán",
+    regulatoryTitle: "Marcadores provisionales",
+    regulatoryDescription:
+      "Espacio reservado para el marcado de productos sanitarios en la UE.",
+    regulatoryCeLabel: "Marca CE",
+    regulatoryUdiDiLabel: "UDI-DI",
+    regulatoryUdiPiLabel: "UDI-PI",
+    regulatoryClassLabel: "Clase de riesgo",
+    regulatoryPlaceholder: "Marcador",
     simulatedResults: [
       "Se detectó un perfil de tos saludable.",
       "Posible patrón leve de bronquitis detectado.",
@@ -144,6 +167,14 @@ export const translations = {
     languagePolishLabel: "Zu Polnisch wechseln",
     languageSpanishLabel: "Zu Spanisch wechseln",
     languageGermanLabel: "Zu Deutsch wechseln",
+    regulatoryTitle: "Platzhalter",
+    regulatoryDescription:
+      "Reservierter Bereich für EU-Kennzeichnungen von Medizinprodukten.",
+    regulatoryCeLabel: "CE-Kennzeichen",
+    regulatoryUdiDiLabel: "UDI-DI",
+    regulatoryUdiPiLabel: "UDI-PI",
+    regulatoryClassLabel: "Risikoklasse",
+    regulatoryPlaceholder: "Platzhalter",
     simulatedResults: [
       "Ein gesundes Hustenprofil wurde erkannt.",
       "Mögliches leichtes Bronchitis-Muster erkannt.",

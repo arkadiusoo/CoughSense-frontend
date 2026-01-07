@@ -409,6 +409,33 @@ export default function App() {
                 </button>
               </div>
             )}
+
+            <footer className="regulatory">
+              <div>
+                <p className="regulatory-title">{t.regulatoryTitle}</p>
+                <p className="muted">{t.regulatoryDescription}</p>
+              </div>
+              <div className="regulatory-grid">
+                {/* <div className="regulatory-item">
+                  <span className="regulatory-label">{t.regulatoryCeLabel}</span>
+                  <span className="regulatory-value">
+                    {t.regulatoryPlaceholder}
+                  </span>
+                </div> */}
+                <div className="regulatory-item">
+                  <span className="regulatory-label">{t.regulatoryUdiDiLabel}</span>
+                  <span className="regulatory-value">
+                    {t.regulatoryPlaceholder}
+                  </span>
+                </div>
+                <div className="regulatory-item">
+                  <span className="regulatory-label">{t.regulatoryUdiPiLabel}</span>
+                  <span className="regulatory-value">
+                    {t.regulatoryPlaceholder}
+                  </span>
+                </div>
+              </div>
+            </footer>
           </main>
         </div>
       </div>
