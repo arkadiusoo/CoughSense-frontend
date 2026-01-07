@@ -82,6 +82,7 @@ export default function App() {
   const [sidebarWidth, setSidebarWidth] = useState(0);
   const [isResizing, setIsResizing] = useState(false);
   const [language, setLanguage] = useState(() => getInitialLanguage());
+  const [showDisclaimer, setShowDisclaimer] = useState(false);
 
   const { history, addEntry } = useAnalysisHistory();
   const t = translations[language] ?? translations.en;
@@ -183,11 +184,20 @@ export default function App() {
     clearRecording();
   };
 
-  const handleAnalyze = () => {
+  const handleAnalyzeRequest = () => {
     if (!selectedFile || stage !== "input") {
       return;
     }
+    setShowDisclaimer(true);
+  };
+
+  const handleConfirmAnalyze = () => {
+    setShowDisclaimer(false);
     setStage("progress");
+  };
+
+  const handleDismissDisclaimer = () => {
+    setShowDisclaimer(false);
   };
 
   const handleReset = () => {
@@ -382,7 +392,7 @@ export default function App() {
                 <button
                   type="button"
                   className="primary"
-                  onClick={handleAnalyze}
+                  onClick={handleAnalyzeRequest}
                   disabled={!selectedFile}
                 >
                   {t.analyzeButton}
@@ -439,6 +449,27 @@ export default function App() {
           </main>
         </div>
       </div>
+
+      {showDisclaimer && (
+        <div className="modal-backdrop" role="dialog" aria-modal="true">
+          <div className="modal">
+            <h2>{t.disclaimerTitle}</h2>
+            <p className="modal-text">{t.disclaimerBody}</p>
+            <div className="modal-actions">
+              <button
+                type="button"
+                className="ghost"
+                onClick={handleDismissDisclaimer}
+              >
+                {t.disclaimerSecondary}
+              </button>
+              <button type="button" className="primary" onClick={handleConfirmAnalyze}>
+                {t.disclaimerPrimary}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

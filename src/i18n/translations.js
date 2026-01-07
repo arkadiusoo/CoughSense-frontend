@@ -30,6 +30,11 @@ export const translations = {
     languagePolishLabel: "Switch to Polish",
     languageSpanishLabel: "Switch to Spanish",
     languageGermanLabel: "Switch to German",
+    disclaimerTitle: "Important notice",
+    disclaimerBody:
+      "This tool does not replace a medical consultation. The analysis result may be incorrect. If you have any doubts about your health, consult a doctor.",
+    disclaimerPrimary: "I understand, continue",
+    disclaimerSecondary: "Cancel",
     regulatoryTitle: "Regulatory placeholders",
     regulatoryDescription: "Reserved space for EU medical device markings.",
     regulatoryCeLabel: "CE mark",
@@ -75,6 +80,11 @@ export const translations = {
     languagePolishLabel: "Zmień na polski",
     languageSpanishLabel: "Zmień na hiszpański",
     languageGermanLabel: "Zmień na niemiecki",
+    disclaimerTitle: "Ważna informacja",
+    disclaimerBody:
+      "To narzędzie nie zastępuje konsultacji lekarskiej. Wynik analizy może być błędny. Jeśli masz jakiekolwiek wątpliwości dotyczące zdrowia, skonsultuj się z lekarzem.",
+    disclaimerPrimary: "Rozumiem, kontynuuj",
+    disclaimerSecondary: "Anuluj",
     regulatoryTitle: "Miejsce na oznaczenia",
     regulatoryDescription:
       "Przestrzeń zarezerwowana na oznakowanie wyrobu medycznego w UE.",
@@ -121,6 +131,11 @@ export const translations = {
     languagePolishLabel: "Cambiar a polaco",
     languageSpanishLabel: "Cambiar a español",
     languageGermanLabel: "Cambiar a alemán",
+    disclaimerTitle: "Aviso importante",
+    disclaimerBody:
+      "Esta herramienta no reemplaza una consulta médica. El resultado del análisis puede ser incorrecto. Si tienes dudas sobre tu salud, consulta a un médico.",
+    disclaimerPrimary: "Entiendo, continuar",
+    disclaimerSecondary: "Cancelar",
     regulatoryTitle: "Marcadores provisionales",
     regulatoryDescription:
       "Espacio reservado para el marcado de productos sanitarios en la UE.",
@@ -167,6 +182,11 @@ export const translations = {
     languagePolishLabel: "Zu Polnisch wechseln",
     languageSpanishLabel: "Zu Spanisch wechseln",
     languageGermanLabel: "Zu Deutsch wechseln",
+    disclaimerTitle: "Wichtiger Hinweis",
+    disclaimerBody:
+      "Dieses Tool ersetzt keine ärztliche Konsultation. Das Analyseergebnis kann falsch sein. Wenn Sie Zweifel an Ihrer Gesundheit haben, wenden Sie sich an einen Arzt.",
+    disclaimerPrimary: "Ich verstehe, weiter",
+    disclaimerSecondary: "Abbrechen",
     regulatoryTitle: "Platzhalter",
     regulatoryDescription:
       "Reservierter Bereich für EU-Kennzeichnungen von Medizinprodukten.",

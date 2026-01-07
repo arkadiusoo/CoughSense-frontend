@@ -380,6 +380,46 @@ audio {
   color: var(--accent-dark);
 }
 
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(21, 39, 28, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 20;
+}
+
+.modal {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 24px;
+  width: min(520px, 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  box-shadow: 0 22px 50px rgba(18, 38, 25, 0.25);
+}
+
+.modal h2 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.modal-text {
+  margin: 0;
+  color: var(--muted);
+}
+
+.modal-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: flex-end;
+}
+
 .regulatory {
   margin-top: 8px;
   padding-top: 16px;
