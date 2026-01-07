@@ -1,17 +1,23 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useAudioRecorder } from "./hooks/useAudioRecorder";
 import { useAnalysisHistory } from "./hooks/useAnalysisHistory";
 import HistoryPanel from "./components/HistoryPanel";
+import { locales, translations } from "./i18n/translations";
 import "./styles/app.css";
 
-const SIMULATED_RESULTS = [
-  "Healthy cough profile detected.",
-  "Possible mild bronchitis signature detected.",
-  "Potential asthma-related cough pattern detected.",
-  "Cough profile suggests upper airway irritation.",
-];
-
 const DEFAULT_SIDEBAR_WIDTH = 320;
+const LANGUAGE_STORAGE_KEY = "coughsense.language";
+const RESULT_INDEX_BY_TEXT = (() => {
+  const map = new Map();
+  Object.values(translations).forEach((entry) => {
+    entry.simulatedResults.forEach((text, index) => {
+      if (!map.has(text)) {
+        map.set(text, index);
+      }
+    });
+  });
+  return map;
+})();
 
 function formatFileSize(bytes) {
   if (!bytes && bytes !== 0) {
@@ -28,9 +34,9 @@ function formatFileSize(bytes) {
   return `${mb.toFixed(1)} MB`;
 }
 
-function pickRandomResult() {
-  const index = Math.floor(Math.random() * SIMULATED_RESULTS.length);
-  return SIMULATED_RESULTS[index];
+function pickRandomResult(options) {
+  const index = Math.floor(Math.random() * options.length);
+  return { index, value: options[index] };
 }
 
 function getSidebarMaxWidth() {
@@ -44,6 +50,29 @@ function clamp(value, min, max) {
   return Math.min(Math.max(value, min), max);
 }
 
+function getInitialLanguage() {
+  if (typeof window === "undefined") {
+    return "en";
+  }
+
+  const stored = window.localStorage.getItem(LANGUAGE_STORAGE_KEY);
+  if (stored && translations[stored]) {
+    return stored;
+  }
+
+  const browserLanguage = navigator.language?.toLowerCase() || "";
+  if (browserLanguage.startsWith("pl")) {
+    return "pl";
+  }
+  if (browserLanguage.startsWith("es")) {
+    return "es";
+  }
+  if (browserLanguage.startsWith("de")) {
+    return "de";
+  }
+  return "en";
+}
+
 export default function App() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [stage, setStage] = useState("input");
@@ -52,8 +81,25 @@ export default function App() {
   const [fileInputKey, setFileInputKey] = useState(0);
   const [sidebarWidth, setSidebarWidth] = useState(0);
   const [isResizing, setIsResizing] = useState(false);
+  const [language, setLanguage] = useState(() => getInitialLanguage());
 
   const { history, addEntry } = useAnalysisHistory();
+  const t = translations[language] ?? translations.en;
+  const locale = locales[language] ?? locales.en;
+  const mappedHistory = useMemo(
+    () =>
+      history.map((entry) => {
+        if (typeof entry.resultKey === "number") {
+          return entry;
+        }
+        const mappedKey = RESULT_INDEX_BY_TEXT.get(entry.result);
+        if (typeof mappedKey === "number") {
+          return { ...entry, resultKey: mappedKey };
+        }
+        return entry;
+      }),
+    [history]
+  );
 
   const {
     isSupported,
@@ -67,7 +113,18 @@ export default function App() {
   } = useAudioRecorder();
 
   const isRecording = status === "recording";
-  const statusLabel = isRecording ? "Recording..." : audioUrl ? "Ready" : "Idle";
+  const statusKey = isRecording ? "recording" : audioUrl ? "ready" : "idle";
+  const statusLabel = `${t.statusPrefix} ${t.status[statusKey]}`;
+
+  useEffect(() => {
+    if (typeof document !== "undefined") {
+      document.documentElement.lang = language;
+    }
+
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem(LANGUAGE_STORAGE_KEY, language);
+    }
+  }, [language]);
 
   useEffect(() => {
     if (!audioBlob) {
@@ -99,9 +156,9 @@ export default function App() {
     const responseTimer = window.setTimeout(() => {
       window.clearInterval(progressTimer);
       setProgress(100);
-      const result = pickRandomResult();
-      setResultText(result);
-      addEntry(result);
+      const result = pickRandomResult(t.simulatedResults);
+      setResultText(result.value);
+      addEntry({ resultKey: result.index, resultText: result.value });
       setStage("result");
     }, 3200);
 
@@ -109,7 +166,7 @@ export default function App() {
       window.clearInterval(progressTimer);
       window.clearTimeout(responseTimer);
     };
-  }, [stage, addEntry]);
+  }, [stage, addEntry, t.simulatedResults]);
 
   const handleFileChange = (event) => {
     const file = event.target.files?.[0] || null;
@@ -197,29 +254,70 @@ export default function App() {
         type="button"
         className="menu-button"
         onClick={handleToggleSidebar}
-        aria-label="Toggle history"
+        aria-label={t.toggleHistoryLabel}
       >
         <span />
         <span />
         <span />
       </button>
 
+      <div className="lang-switcher" aria-label={t.languageLabel}>
+        <button
+          type="button"
+          className={`lang-button${language === "en" ? " active" : ""}`}
+          onClick={() => setLanguage("en")}
+          aria-pressed={language === "en"}
+          aria-label={t.languageEnglishLabel}
+        >
+          EN
+        </button>
+        <button
+          type="button"
+          className={`lang-button${language === "pl" ? " active" : ""}`}
+          onClick={() => setLanguage("pl")}
+          aria-pressed={language === "pl"}
+          aria-label={t.languagePolishLabel}
+        >
+          PL
+        </button>
+        <button
+          type="button"
+          className={`lang-button${language === "es" ? " active" : ""}`}
+          onClick={() => setLanguage("es")}
+          aria-pressed={language === "es"}
+          aria-label={t.languageSpanishLabel}
+        >
+          ES
+        </button>
+        <button
+          type="button"
+          className={`lang-button${language === "de" ? " active" : ""}`}
+          onClick={() => setLanguage("de")}
+          aria-pressed={language === "de"}
+          aria-label={t.languageGermanLabel}
+        >
+          DE
+        </button>
+      </div>
+
       <div className="layout">
         <HistoryPanel
-          history={history}
+          history={mappedHistory}
           width={sidebarWidth}
           isResizing={isResizing}
           onResizeStart={handleResizeStart}
+          title={t.historyTitle}
+          subtitle={t.historySubtitle}
+          emptyText={t.historyEmpty}
+          locale={locale}
+          resultTranslations={t.simulatedResults}
         />
         <div className="content">
           <main className="card">
             <header className="header">
-              <p className="eyebrow">CoughSense</p>
-              <h1>Check your cough</h1>
-              <p className="subtitle">
-                Record a short cough sample or upload an audio file. Then run
-                the analysis and see the result.
-              </p>
+              <p className="eyebrow">{t.appName}</p>
+              <h1>{t.title}</h1>
+              <p className="subtitle">{t.subtitle}</p>
             </header>
 
             {stage === "input" && (
@@ -231,7 +329,7 @@ export default function App() {
                     onClick={startRecording}
                     disabled={!isSupported || isRecording}
                   >
-                    Record cough
+                    {t.recordButton}
                   </button>
                   <button
                     type="button"
@@ -239,24 +337,22 @@ export default function App() {
                     onClick={stopRecording}
                     disabled={!isRecording}
                   >
-                    Stop
+                    {t.stopButton}
                   </button>
                 </div>
-                <p className="status-line">Status: {statusLabel}</p>
+                <p className="status-line">{statusLabel}</p>
                 {!isSupported && (
-                  <p className="muted">
-                    Recording is not supported in this browser.
-                  </p>
+                  <p className="muted">{t.microphoneUnsupported}</p>
                 )}
                 {recorderError && <p className="error">{recorderError}</p>}
                 {audioUrl && <audio controls src={audioUrl} />}
 
                 <div className="divider">
-                  <span>or</span>
+                  <span>{t.orDivider}</span>
                 </div>
 
                 <label className="file-upload">
-                  <span>Upload audio file</span>
+                  <span>{t.uploadLabel}</span>
                   <input
                     key={fileInputKey}
                     type="file"
@@ -278,7 +374,7 @@ export default function App() {
                       className="ghost"
                       onClick={handleClearSelection}
                     >
-                      Clear
+                      {t.clearButton}
                     </button>
                   </div>
                 )}
@@ -289,27 +385,27 @@ export default function App() {
                   onClick={handleAnalyze}
                   disabled={!selectedFile}
                 >
-                  Analyze
+                  {t.analyzeButton}
                 </button>
               </div>
             )}
 
             {stage === "progress" && (
               <div className="stage">
-                <p className="progress-label">Analyzing your cough sample...</p>
+                <p className="progress-label">{t.analyzingLabel}</p>
                 <div className="progress-track">
                   <div className="progress-bar" style={{ width: `${progress}%` }} />
                 </div>
-                <p className="muted">This takes a few seconds.</p>
+                <p className="muted">{t.progressHint}</p>
               </div>
             )}
 
             {stage === "result" && (
               <div className="stage">
-                <p className="result-label">Result</p>
+                <p className="result-label">{t.resultLabel}</p>
                 <p className="result-text">{resultText}</p>
                 <button type="button" className="ghost" onClick={handleReset}>
-                  Analyze another sample
+                  {t.analyzeAnotherButton}
                 </button>
               </div>
             )}

@@ -1,9 +1,9 @@
-function formatTimestamp(value) {
+function formatTimestamp(value, locale) {
   const date = new Date(value);
   if (Number.isNaN(date.getTime())) {
     return "";
   }
-  return date.toLocaleString("pl-PL", {
+  return date.toLocaleString(locale, {
     dateStyle: "medium",
     timeStyle: "short",
   });
@@ -14,8 +14,23 @@ export default function HistoryPanel({
   width,
   isResizing,
   onResizeStart,
+  title,
+  subtitle,
+  emptyText,
+  resultTranslations = [],
+  locale = "en-US",
 }) {
   const isCollapsed = width === 0;
+
+  const resolveResultText = (entry) => {
+    if (
+      typeof entry.resultKey === "number" &&
+      resultTranslations[entry.resultKey]
+    ) {
+      return resultTranslations[entry.resultKey];
+    }
+    return entry.result;
+  };
 
   return (
     <aside
@@ -28,19 +43,21 @@ export default function HistoryPanel({
       <div className="history-content">
         <div className="history-header">
           <div>
-            <h2>History</h2>
-            <p className="muted">Last 10 analyses</p>
+            <h2>{title}</h2>
+            <p className="muted">{subtitle}</p>
           </div>
         </div>
 
         {history.length === 0 ? (
-          <p className="muted">No analyses yet.</p>
+          <p className="muted">{emptyText}</p>
         ) : (
           <ul className="history-list">
             {history.map((entry) => (
               <li key={entry.id} className="history-item">
-                <p className="history-date">{formatTimestamp(entry.timestamp)}</p>
-                <p className="history-text">{entry.result}</p>
+                <p className="history-date">
+                  {formatTimestamp(entry.timestamp, locale)}
+                </p>
+                <p className="history-text">{resolveResultText(entry)}</p>
               </li>
             ))}
           </ul>

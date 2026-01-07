@@ -49,6 +49,45 @@
   z-index: 10;
 }
 
+.lang-switcher {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  display: flex;
+  gap: 2px;
+  padding: 4px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--card);
+  z-index: 10;
+  flex-wrap: wrap;
+  max-width: 220px;
+}
+
+.lang-switcher .lang-button {
+  border: none;
+  background: transparent;
+  padding: 6px 10px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  box-shadow: none;
+}
+
+.lang-switcher .lang-button:hover:not(:disabled) {
+  transform: none;
+  box-shadow: none;
+  border-color: transparent;
+}
+
+.lang-switcher .lang-button.active {
+  background: var(--accent);
+  color: #f4fff6;
+  border-radius: 999px;
+}
+
 .menu-button span {
   width: 18px;
   height: 2px;
@@ -381,6 +420,20 @@ p {
 
   .content {
     padding: 72px 16px 40px;
+  }
+
+  .menu-button,
+  .lang-switcher {
+    top: 16px;
+  }
+
+  .menu-button {
+    left: 16px;
+  }
+
+  .lang-switcher {
+    right: 16px;
+    max-width: 180px;
   }
 
   .file-summary {

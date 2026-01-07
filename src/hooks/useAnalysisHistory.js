@@ -35,11 +35,16 @@ export function useAnalysisHistory() {
     }
   }, [history]);
 
-  const addEntry = useCallback((resultText) => {
+  const addEntry = useCallback((payload) => {
+    const isObject = typeof payload === "object" && payload !== null;
+    const resultText = isObject ? payload.resultText : payload;
+    const resultKey = isObject ? payload.resultKey : null;
+
     const entry = {
       id: Date.now().toString(),
       timestamp: new Date().toISOString(),
-      result: resultText,
+      result: resultText || "",
+      resultKey: Number.isInteger(resultKey) ? resultKey : null,
     };
 
     setHistory((prev) => [entry, ...prev].slice(0, MAX_ITEMS));
