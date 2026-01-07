@@ -2,6 +2,9 @@
 
 :root {
   --bg: #e9f3ec;
+  --bg-1: #f6fbf7;
+  --bg-2: #e5f0e9;
+  --bg-3: #d6e6dc;
   --card: #f7fbf8;
   --text: #17331f;
   --muted: #4e6454;
@@ -10,10 +13,43 @@
   --border: #c9d8ce;
   --shadow: rgba(19, 60, 36, 0.16);
   --ring: rgba(91, 155, 106, 0.35);
+  --surface: #f2f8f4;
+  --surface-alt: #eef6f0;
+  --upload: #eff7f1;
+  --progress-track: #d7e7dc;
+  --progress-start: #6fb081;
+  --progress-end: #4b8d63;
+  --modal-backdrop: rgba(21, 39, 28, 0.45);
+  --card-glow: rgba(255, 255, 255, 0.7);
+  --hover-shadow: rgba(27, 62, 40, 0.12);
   color: var(--text);
   background-color: var(--bg);
   font-family: "Manrope", "Segoe UI", sans-serif;
   line-height: 1.6;
+}
+
+[data-theme="dark"] {
+  --bg: #0d1511;
+  --bg-1: #0f1b15;
+  --bg-2: #101f18;
+  --bg-3: #0d1813;
+  --card: #16241c;
+  --text: #edf5ef;
+  --muted: #a3b6aa;
+  --accent: #67b984;
+  --accent-dark: #9fe0b8;
+  --border: #2b3a32;
+  --shadow: rgba(0, 0, 0, 0.35);
+  --ring: rgba(103, 185, 132, 0.4);
+  --surface: #1d2c23;
+  --surface-alt: #1a2a21;
+  --upload: #1c2b22;
+  --progress-track: #24362c;
+  --progress-start: #6fbf8a;
+  --progress-end: #4f9b72;
+  --modal-backdrop: rgba(7, 11, 9, 0.6);
+  --card-glow: rgba(255, 255, 255, 0.08);
+  --hover-shadow: rgba(0, 0, 0, 0.4);
 }
 
 * {

@@ -7,6 +7,7 @@ import "./styles/app.css";
 
 const DEFAULT_SIDEBAR_WIDTH = 320;
 const LANGUAGE_STORAGE_KEY = "coughsense.language";
+const THEME_STORAGE_KEY = "coughsense.theme";
 const RESULT_INDEX_BY_TEXT = (() => {
   const map = new Map();
   Object.values(translations).forEach((entry) => {
@@ -73,6 +74,21 @@ function getInitialLanguage() {
   return "en";
 }
 
+function getInitialTheme() {
+  if (typeof window === "undefined") {
+    return "light";
+  }
+
+  const stored = window.localStorage.getItem(THEME_STORAGE_KEY);
+  if (stored === "dark" || stored === "light") {
+    return stored;
+  }
+
+  return window.matchMedia?.("(prefers-color-scheme: dark)").matches
+    ? "dark"
+    : "light";
+}
+
 export default function App() {
   const [selectedFile, setSelectedFile] = useState(null);
   const [stage, setStage] = useState("input");
@@ -83,6 +99,7 @@ export default function App() {
   const [isResizing, setIsResizing] = useState(false);
   const [language, setLanguage] = useState(() => getInitialLanguage());
   const [showDisclaimer, setShowDisclaimer] = useState(false);
+  const [theme, setTheme] = useState(() => getInitialTheme());
 
   const { history, addEntry } = useAnalysisHistory();
   const t = translations[language] ?? translations.en;
@@ -126,6 +143,16 @@ export default function App() {
       window.localStorage.setItem(LANGUAGE_STORAGE_KEY, language);
     }
   }, [language]);
+
+  useEffect(() => {
+    if (typeof document !== "undefined") {
+      document.documentElement.dataset.theme = theme;
+    }
+
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem(THEME_STORAGE_KEY, theme);
+    }
+  }, [theme]);
 
   useEffect(() => {
     if (!audioBlob) {
@@ -200,6 +227,10 @@ export default function App() {
     setShowDisclaimer(false);
   };
 
+  const handleToggleTheme = () => {
+    setTheme((value) => (value === "dark" ? "light" : "dark"));
+  };
+
   const handleReset = () => {
     setStage("input");
     setProgress(0);
@@ -271,42 +302,53 @@ export default function App() {
         <span />
       </button>
 
-      <div className="lang-switcher" aria-label={t.languageLabel}>
+      <div className="top-controls">
+        <div className="lang-switcher" aria-label={t.languageLabel}>
+          <button
+            type="button"
+            className={`lang-button${language === "en" ? " active" : ""}`}
+            onClick={() => setLanguage("en")}
+            aria-pressed={language === "en"}
+            aria-label={t.languageEnglishLabel}
+          >
+            EN
+          </button>
+          <button
+            type="button"
+            className={`lang-button${language === "pl" ? " active" : ""}`}
+            onClick={() => setLanguage("pl")}
+            aria-pressed={language === "pl"}
+            aria-label={t.languagePolishLabel}
+          >
+            PL
+          </button>
+          <button
+            type="button"
+            className={`lang-button${language === "es" ? " active" : ""}`}
+            onClick={() => setLanguage("es")}
+            aria-pressed={language === "es"}
+            aria-label={t.languageSpanishLabel}
+          >
+            ES
+          </button>
+          <button
+            type="button"
+            className={`lang-button${language === "de" ? " active" : ""}`}
+            onClick={() => setLanguage("de")}
+            aria-pressed={language === "de"}
+            aria-label={t.languageGermanLabel}
+          >
+            DE
+          </button>
+        </div>
         <button
           type="button"
-          className={`lang-button${language === "en" ? " active" : ""}`}
-          onClick={() => setLanguage("en")}
-          aria-pressed={language === "en"}
-          aria-label={t.languageEnglishLabel}
+          className="theme-toggle"
+          onClick={handleToggleTheme}
+          aria-label={theme === "dark" ? t.themeLightLabel : t.themeDarkLabel}
+          aria-pressed={theme === "dark"}
         >
-          EN
-        </button>
-        <button
-          type="button"
-          className={`lang-button${language === "pl" ? " active" : ""}`}
-          onClick={() => setLanguage("pl")}
-          aria-pressed={language === "pl"}
-          aria-label={t.languagePolishLabel}
-        >
-          PL
-        </button>
-        <button
-          type="button"
-          className={`lang-button${language === "es" ? " active" : ""}`}
-          onClick={() => setLanguage("es")}
-          aria-pressed={language === "es"}
-          aria-label={t.languageSpanishLabel}
-        >
-          ES
-        </button>
-        <button
-          type="button"
-          className={`lang-button${language === "de" ? " active" : ""}`}
-          onClick={() => setLanguage("de")}
-          aria-pressed={language === "de"}
-          aria-label={t.languageGermanLabel}
-        >
-          DE
+          {theme === "dark" ? t.themeLightLabel : t.themeDarkLabel}
         </button>
       </div>
 

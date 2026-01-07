@@ -30,6 +30,9 @@ export const translations = {
     languagePolishLabel: "Switch to Polish",
     languageSpanishLabel: "Switch to Spanish",
     languageGermanLabel: "Switch to German",
+    themeLabel: "Theme",
+    themeDarkLabel: "Dark mode",
+    themeLightLabel: "Light mode",
     disclaimerTitle: "Important notice",
     disclaimerBody:
       "This tool does not replace a medical consultation. The analysis result may be incorrect. If you have any doubts about your health, consult a doctor.",
@@ -80,6 +83,9 @@ export const translations = {
     languagePolishLabel: "Zmień na polski",
     languageSpanishLabel: "Zmień na hiszpański",
     languageGermanLabel: "Zmień na niemiecki",
+    themeLabel: "Motyw",
+    themeDarkLabel: "Tryb ciemny",
+    themeLightLabel: "Tryb jasny",
     disclaimerTitle: "Ważna informacja",
     disclaimerBody:
       "To narzędzie nie zastępuje konsultacji lekarskiej. Wynik analizy może być błędny. Jeśli masz jakiekolwiek wątpliwości dotyczące zdrowia, skonsultuj się z lekarzem.",
@@ -131,6 +137,9 @@ export const translations = {
     languagePolishLabel: "Cambiar a polaco",
     languageSpanishLabel: "Cambiar a español",
     languageGermanLabel: "Cambiar a alemán",
+    themeLabel: "Tema",
+    themeDarkLabel: "Modo oscuro",
+    themeLightLabel: "Modo claro",
     disclaimerTitle: "Aviso importante",
     disclaimerBody:
       "Esta herramienta no reemplaza una consulta médica. El resultado del análisis puede ser incorrecto. Si tienes dudas sobre tu salud, consulta a un médico.",
@@ -182,6 +191,9 @@ export const translations = {
     languagePolishLabel: "Zu Polnisch wechseln",
     languageSpanishLabel: "Zu Spanisch wechseln",
     languageGermanLabel: "Zu Deutsch wechseln",
+    themeLabel: "Thema",
+    themeDarkLabel: "Dunkler Modus",
+    themeLightLabel: "Heller Modus",
     disclaimerTitle: "Wichtiger Hinweis",
     disclaimerBody:
       "Dieses Tool ersetzt keine ärztliche Konsultation. Das Analyseergebnis kann falsch sein. Wenn Sie Zweifel an Ihrer Gesundheit haben, wenden Sie sich an einen Arzt.",
