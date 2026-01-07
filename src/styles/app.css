@@ -1,0 +1,122 @@
+.app {
+  min-height: 100vh;
+  padding: 32px 16px 48px;
+}
+
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.75rem;
+  color: #5b5650;
+  margin: 0;
+}
+
+.subtitle {
+  margin: 0;
+  color: #5b5650;
+  max-width: 640px;
+}
+
+.panel {
+  background: #ffffff;
+  border: 1px solid #d9d4ce;
+  border-radius: 10px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.panel-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+button {
+  border: 1px solid #1f1f1f;
+  background: #ffffff;
+  padding: 8px 14px;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.selection {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.file-name {
+  margin: 0;
+  font-weight: 600;
+}
+
+.muted {
+  margin: 0;
+  color: #5b5650;
+  font-size: 0.9rem;
+}
+
+.status-line {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #5b5650;
+}
+
+.error {
+  margin: 0;
+  color: #a43e33;
+}
+
+.preview {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.result-block {
+  background: #f7f5f2;
+  border: 1px solid #e0dbd6;
+  border-radius: 6px;
+  padding: 12px;
+  font-size: 0.9rem;
+  overflow-x: auto;
+}
+
+input[type="file"] {
+  border: 1px solid #c9c2bb;
+  padding: 6px;
+  background: #faf8f5;
+}
+
+h1,
+h2,
+p {
+  margin: 0;
+}

@@ -1,0 +1,23 @@
+:root {
+  color: #1f1f1f;
+  background-color: #f4f1ed;
+  font-family: "Georgia", "Times New Roman", serif;
+  line-height: 1.5;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+#root {
+  min-height: 100vh;
+}
