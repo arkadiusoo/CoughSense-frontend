@@ -60,7 +60,7 @@
 .history-panel {
   background: var(--card);
   border-right: 1px solid var(--border);
-  padding: 88px 18px 24px;
+  padding: 0;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -72,8 +72,7 @@
 }
 
 .history-panel.collapsed {
-  padding: 0;
-  border-right: none;
+  border-right-color: transparent;
 }
 
 .history-panel.resizing {
@@ -82,6 +81,7 @@
 
 .history-content {
   min-width: 240px;
+  padding: 88px 18px 24px;
   display: flex;
   flex-direction: column;
   gap: 16px;
