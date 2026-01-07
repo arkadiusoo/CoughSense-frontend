@@ -1,8 +1,19 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Newsreader:wght@400;600&display=swap");
+
 :root {
-  color: #1f1f1f;
-  background-color: #f4f1ed;
-  font-family: "Georgia", "Times New Roman", serif;
-  line-height: 1.5;
+  --bg: #e9f3ec;
+  --card: #f7fbf8;
+  --text: #17331f;
+  --muted: #4e6454;
+  --accent: #5b9b6a;
+  --accent-dark: #2f6b3f;
+  --border: #c9d8ce;
+  --shadow: rgba(19, 60, 36, 0.16);
+  --ring: rgba(91, 155, 106, 0.35);
+  color: var(--text);
+  background-color: var(--bg);
+  font-family: "Manrope", "Segoe UI", sans-serif;
+  line-height: 1.6;
 }
 
 * {
@@ -11,6 +22,7 @@
 
 body {
   margin: 0;
+  background: var(--bg);
 }
 
 button,
