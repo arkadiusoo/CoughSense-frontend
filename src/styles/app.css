@@ -1,10 +1,20 @@
 .app {
   min-height: 100vh;
+  background: radial-gradient(1200px circle at top, #f6fbf7 0%, #e5f0e9 55%, #d6e6dc 100%);
+  position: relative;
+}
+
+.layout {
+  min-height: 100vh;
+  display: flex;
+}
+
+.content {
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 48px 16px;
-  background: radial-gradient(1200px circle at top, #f6fbf7 0%, #e5f0e9 55%, #d6e6dc 100%);
+  padding: 64px 20px;
 }
 
 .card {
@@ -20,6 +30,116 @@
   position: relative;
   overflow: hidden;
   animation: riseIn 500ms ease;
+}
+
+.menu-button {
+  position: fixed;
+  top: 24px;
+  left: 24px;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--card);
+  display: grid;
+  gap: 5px;
+  align-content: center;
+  justify-items: center;
+  z-index: 10;
+}
+
+.menu-button span {
+  width: 18px;
+  height: 2px;
+  border-radius: 999px;
+  background: var(--accent-dark);
+  display: block;
+}
+
+.history-panel {
+  background: var(--card);
+  border-right: 1px solid var(--border);
+  padding: 24px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow: hidden;
+  transition: width 220ms ease;
+  position: relative;
+  min-width: 0;
+  flex: 0 0 auto;
+}
+
+.history-panel.collapsed {
+  padding: 0;
+  border-right: none;
+}
+
+.history-panel.resizing {
+  transition: none;
+}
+
+.history-header h2 {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.history-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.history-item {
+  background: #eef6f0;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.history-date {
+  margin: 0;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+}
+
+.history-text {
+  margin: 0;
+  font-weight: 600;
+  color: var(--accent-dark);
+}
+
+.resize-handle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 8px;
+  height: 100%;
+  cursor: ew-resize;
+}
+
+.resize-handle::after {
+  content: "";
+  position: absolute;
+  top: 18px;
+  bottom: 18px;
+  left: 3px;
+  width: 2px;
+  border-radius: 999px;
+  background: rgba(46, 88, 59, 0.25);
+}
+
+.history-panel.collapsed .resize-handle {
+  display: none;
 }
 
 .card::before {
@@ -250,6 +370,10 @@ p {
 @media (max-width: 640px) {
   .card {
     padding: 24px;
+  }
+
+  .content {
+    padding: 72px 16px 40px;
   }
 
   .file-summary {
