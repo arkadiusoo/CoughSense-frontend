@@ -1,8 +1,9 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useAudioRecorder } from "./hooks/useAudioRecorder";
 import { useAnalysisHistory } from "./hooks/useAnalysisHistory";
 import HistoryPanel from "./components/HistoryPanel";
 import { locales, translations } from "./i18n/translations";
+import { analyzeCoughAudio } from "./services/api";
 import "./styles/app.css";
 
 const DEFAULT_SIDEBAR_WIDTH = 320;
@@ -35,9 +36,36 @@ function formatFileSize(bytes) {
   return `${mb.toFixed(1)} MB`;
 }
 
-function pickRandomResult(options) {
-  const index = Math.floor(Math.random() * options.length);
-  return { index, value: options[index] };
+function extractResultText(payload) {
+  if (!payload) {
+    return "";
+  }
+  if (typeof payload === "string") {
+    return payload;
+  }
+  if (typeof payload.result === "string") {
+    return payload.result;
+  }
+  if (typeof payload.prediction === "string") {
+    return payload.prediction;
+  }
+  if (typeof payload.diagnosis === "string") {
+    return payload.diagnosis;
+  }
+  if (typeof payload.label === "string") {
+    return payload.label;
+  }
+  if (typeof payload.classification === "string") {
+    return payload.classification;
+  }
+  if (typeof payload.message === "string") {
+    return payload.message;
+  }
+  try {
+    return JSON.stringify(payload);
+  } catch {
+    return "";
+  }
 }
 
 function getSidebarMaxWidth() {
@@ -94,6 +122,7 @@ export default function App() {
   const [stage, setStage] = useState("input");
   const [progress, setProgress] = useState(0);
   const [resultText, setResultText] = useState("");
+  const [analysisError, setAnalysisError] = useState("");
   const [fileInputKey, setFileInputKey] = useState(0);
   const [sidebarWidth, setSidebarWidth] = useState(0);
   const [isResizing, setIsResizing] = useState(false);
@@ -101,9 +130,13 @@ export default function App() {
   const [showDisclaimer, setShowDisclaimer] = useState(false);
   const [theme, setTheme] = useState(() => getInitialTheme());
 
+  const progressTimerRef = useRef(null);
+  const requestIdRef = useRef(0);
+
   const { history, addEntry } = useAnalysisHistory();
   const t = translations[language] ?? translations.en;
   const locale = locales[language] ?? locales.en;
+  const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000/api";
   const mappedHistory = useMemo(
     () =>
       history.map((entry) => {
@@ -165,36 +198,16 @@ export default function App() {
       type: audioBlob.type || "audio/webm",
     });
     setSelectedFile(file);
+    setAnalysisError("");
   }, [audioBlob]);
 
   useEffect(() => {
-    if (stage !== "progress") {
-      return;
-    }
-
-    let current = 0;
-    setProgress(0);
-
-    // Simulate progress while waiting for a backend response.
-    const progressTimer = window.setInterval(() => {
-      current = Math.min(current + Math.random() * 7 + 3, 95);
-      setProgress(Math.round(current));
-    }, 220);
-
-    const responseTimer = window.setTimeout(() => {
-      window.clearInterval(progressTimer);
-      setProgress(100);
-      const result = pickRandomResult(t.simulatedResults);
-      setResultText(result.value);
-      addEntry({ resultKey: result.index, resultText: result.value });
-      setStage("result");
-    }, 3200);
-
     return () => {
-      window.clearInterval(progressTimer);
-      window.clearTimeout(responseTimer);
+      if (progressTimerRef.current) {
+        window.clearInterval(progressTimerRef.current);
+      }
     };
-  }, [stage, addEntry, t.simulatedResults]);
+  }, []);
 
   const handleFileChange = (event) => {
     const file = event.target.files?.[0] || null;
@@ -202,6 +215,7 @@ export default function App() {
       return;
     }
     setSelectedFile(file);
+    setAnalysisError("");
     clearRecording();
   };
 
@@ -209,6 +223,26 @@ export default function App() {
     setSelectedFile(null);
     setFileInputKey((value) => value + 1);
     clearRecording();
+    setAnalysisError("");
+  };
+
+  const stopProgress = () => {
+    if (progressTimerRef.current) {
+      window.clearInterval(progressTimerRef.current);
+      progressTimerRef.current = null;
+    }
+  };
+
+  const startProgress = () => {
+    stopProgress();
+    let current = 0;
+    setProgress(0);
+
+    // Simulate progress while waiting for a backend response.
+    progressTimerRef.current = window.setInterval(() => {
+      current = Math.min(current + Math.random() * 7 + 3, 95);
+      setProgress(Math.round(current));
+    }, 220);
   };
 
   const handleAnalyzeRequest = () => {
@@ -218,9 +252,42 @@ export default function App() {
     setShowDisclaimer(true);
   };
 
-  const handleConfirmAnalyze = () => {
+  const handleConfirmAnalyze = async () => {
     setShowDisclaimer(false);
+    setAnalysisError("");
+    if (!selectedFile) {
+      return;
+    }
     setStage("progress");
+    startProgress();
+
+    requestIdRef.current += 1;
+    const currentRequestId = requestIdRef.current;
+
+    try {
+      const response = await analyzeCoughAudio(selectedFile, apiBaseUrl);
+      if (currentRequestId !== requestIdRef.current) {
+        return;
+      }
+      stopProgress();
+      setProgress(100);
+
+      const result = extractResultText(response);
+      setResultText(result || t.analysisErrorFallback);
+      addEntry({ resultText: result || t.analysisErrorFallback });
+      setStage("result");
+    } catch (error) {
+      if (currentRequestId !== requestIdRef.current) {
+        return;
+      }
+      stopProgress();
+      const message =
+        error instanceof Error && error.message
+          ? error.message
+          : t.analysisErrorFallback;
+      setAnalysisError(message);
+      setStage("input");
+    }
   };
 
   const handleDismissDisclaimer = () => {
@@ -232,10 +299,13 @@ export default function App() {
   };
 
   const handleReset = () => {
+    requestIdRef.current += 1;
+    stopProgress();
     setStage("input");
     setProgress(0);
     setResultText("");
     setSelectedFile(null);
+    setAnalysisError("");
     clearRecording();
     setFileInputKey((value) => value + 1);
   };
@@ -430,6 +500,8 @@ export default function App() {
                     </button>
                   </div>
                 )}
+
+                {analysisError && <p className="error">{analysisError}</p>}
 
                 <button
                   type="button"

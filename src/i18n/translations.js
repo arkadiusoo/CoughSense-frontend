@@ -33,6 +33,7 @@ export const translations = {
     themeLabel: "Theme",
     themeDarkLabel: "Dark mode",
     themeLightLabel: "Light mode",
+    analysisErrorFallback: "Analysis failed. Please try again.",
     disclaimerTitle: "Important notice",
     disclaimerBody:
       "This tool does not replace a medical consultation. The analysis result may be incorrect. If you have any doubts about your health, consult a doctor.",
@@ -86,6 +87,7 @@ export const translations = {
     themeLabel: "Motyw",
     themeDarkLabel: "Tryb ciemny",
     themeLightLabel: "Tryb jasny",
+    analysisErrorFallback: "Nie udało się przeprowadzić analizy. Spróbuj ponownie.",
     disclaimerTitle: "Ważna informacja",
     disclaimerBody:
       "To narzędzie nie zastępuje konsultacji lekarskiej. Wynik analizy może być błędny. Jeśli masz jakiekolwiek wątpliwości dotyczące zdrowia, skonsultuj się z lekarzem.",
@@ -140,6 +142,7 @@ export const translations = {
     themeLabel: "Tema",
     themeDarkLabel: "Modo oscuro",
     themeLightLabel: "Modo claro",
+    analysisErrorFallback: "No se pudo realizar el análisis. Inténtalo de nuevo.",
     disclaimerTitle: "Aviso importante",
     disclaimerBody:
       "Esta herramienta no reemplaza una consulta médica. El resultado del análisis puede ser incorrecto. Si tienes dudas sobre tu salud, consulta a un médico.",
@@ -194,6 +197,7 @@ export const translations = {
     themeLabel: "Thema",
     themeDarkLabel: "Dunkler Modus",
     themeLightLabel: "Heller Modus",
+    analysisErrorFallback: "Analyse fehlgeschlagen. Bitte versuchen Sie es erneut.",
     disclaimerTitle: "Wichtiger Hinweis",
     disclaimerBody:
       "Dieses Tool ersetzt keine ärztliche Konsultation. Das Analyseergebnis kann falsch sein. Wenn Sie Zweifel an Ihrer Gesundheit haben, wenden Sie sich an einen Arzt.",
