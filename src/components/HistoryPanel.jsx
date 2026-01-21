@@ -18,11 +18,15 @@ export default function HistoryPanel({
   subtitle,
   emptyText,
   resultTranslations = [],
+  resultLabels = {},
   locale = "en-US",
 }) {
   const isCollapsed = width === 0;
 
   const resolveResultText = (entry) => {
+    if (entry.resultCode && resultLabels[entry.resultCode]) {
+      return resultLabels[entry.resultCode];
+    }
     if (
       typeof entry.resultKey === "number" &&
       resultTranslations[entry.resultKey]

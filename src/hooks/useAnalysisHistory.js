@@ -39,12 +39,14 @@ export function useAnalysisHistory() {
     const isObject = typeof payload === "object" && payload !== null;
     const resultText = isObject ? payload.resultText : payload;
     const resultKey = isObject ? payload.resultKey : null;
+    const resultCode = isObject ? payload.resultCode : null;
 
     const entry = {
       id: Date.now().toString(),
       timestamp: new Date().toISOString(),
       result: resultText || "",
       resultKey: Number.isInteger(resultKey) ? resultKey : null,
+      resultCode: typeof resultCode === "string" ? resultCode : null,
     };
 
     setHistory((prev) => [entry, ...prev].slice(0, MAX_ITEMS));

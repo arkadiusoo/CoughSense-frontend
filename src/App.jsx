@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useAudioRecorder } from "./hooks/useAudioRecorder";
 import { useAnalysisHistory } from "./hooks/useAnalysisHistory";
 import HistoryPanel from "./components/HistoryPanel";
@@ -9,18 +9,6 @@ import "./styles/app.css";
 const DEFAULT_SIDEBAR_WIDTH = 320;
 const LANGUAGE_STORAGE_KEY = "coughsense.language";
 const THEME_STORAGE_KEY = "coughsense.theme";
-const RESULT_INDEX_BY_TEXT = (() => {
-  const map = new Map();
-  Object.values(translations).forEach((entry) => {
-    entry.simulatedResults.forEach((text, index) => {
-      if (!map.has(text)) {
-        map.set(text, index);
-      }
-    });
-  });
-  return map;
-})();
-
 function formatFileSize(bytes) {
   if (!bytes && bytes !== 0) {
     return "";
@@ -36,36 +24,20 @@ function formatFileSize(bytes) {
   return `${mb.toFixed(1)} MB`;
 }
 
-function extractResultText(payload) {
+function extractResultLabel(payload) {
   if (!payload) {
     return "";
   }
   if (typeof payload === "string") {
     return payload;
   }
-  if (typeof payload.result === "string") {
-    return payload.result;
-  }
-  if (typeof payload.prediction === "string") {
-    return payload.prediction;
-  }
-  if (typeof payload.diagnosis === "string") {
-    return payload.diagnosis;
+  if (payload.result && typeof payload.result.label === "string") {
+    return payload.result.label;
   }
   if (typeof payload.label === "string") {
     return payload.label;
   }
-  if (typeof payload.classification === "string") {
-    return payload.classification;
-  }
-  if (typeof payload.message === "string") {
-    return payload.message;
-  }
-  try {
-    return JSON.stringify(payload);
-  } catch {
-    return "";
-  }
+  return "";
 }
 
 function getSidebarMaxWidth() {
@@ -137,20 +109,6 @@ export default function App() {
   const t = translations[language] ?? translations.en;
   const locale = locales[language] ?? locales.en;
   const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000/api";
-  const mappedHistory = useMemo(
-    () =>
-      history.map((entry) => {
-        if (typeof entry.resultKey === "number") {
-          return entry;
-        }
-        const mappedKey = RESULT_INDEX_BY_TEXT.get(entry.result);
-        if (typeof mappedKey === "number") {
-          return { ...entry, resultKey: mappedKey };
-        }
-        return entry;
-      }),
-    [history]
-  );
 
   const {
     isSupported,
@@ -272,9 +230,11 @@ export default function App() {
       stopProgress();
       setProgress(100);
 
-      const result = extractResultText(response);
-      setResultText(result || t.analysisErrorFallback);
-      addEntry({ resultText: result || t.analysisErrorFallback });
+      const label = extractResultLabel(response);
+      const resolvedLabel =
+        (label && t.resultLabels?.[label]) || label || t.analysisErrorFallback;
+      setResultText(resolvedLabel);
+      addEntry({ resultCode: label, resultText: resolvedLabel });
       setStage("result");
     } catch (error) {
       if (currentRequestId !== requestIdRef.current) {
@@ -424,7 +384,7 @@ export default function App() {
 
       <div className="layout">
         <HistoryPanel
-          history={mappedHistory}
+          history={history}
           width={sidebarWidth}
           isResizing={isResizing}
           onResizeStart={handleResizeStart}
@@ -433,6 +393,7 @@ export default function App() {
           emptyText={t.historyEmpty}
           locale={locale}
           resultTranslations={t.simulatedResults}
+          resultLabels={t.resultLabels}
         />
         <div className="content">
           <main className="card">
