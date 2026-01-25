@@ -43,21 +43,24 @@ export default function HistoryPanel({
       }`}
       style={{ width }}
       aria-hidden={isCollapsed}
+      data-testid="history-panel"
     >
       <div className="history-content">
         <div className="history-header">
           <div>
-            <h2>{title}</h2>
+            <h2 data-testid="history-title">{title}</h2>
             <p className="muted">{subtitle}</p>
           </div>
         </div>
 
         {history.length === 0 ? (
-          <p className="muted">{emptyText}</p>
+          <p className="muted" data-testid="history-empty">
+            {emptyText}
+          </p>
         ) : (
-          <ul className="history-list">
+          <ul className="history-list" data-testid="history-list">
             {history.map((entry) => (
-              <li key={entry.id} className="history-item">
+              <li key={entry.id} className="history-item" data-testid="history-item">
                 <p className="history-date">
                   {formatTimestamp(entry.timestamp, locale)}
                 </p>

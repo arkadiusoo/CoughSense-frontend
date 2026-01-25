@@ -326,6 +326,7 @@ export default function App() {
         className="menu-button"
         onClick={handleToggleSidebar}
         aria-label={t.toggleHistoryLabel}
+        data-testid="toggle-history"
       >
         <span />
         <span />
@@ -340,6 +341,7 @@ export default function App() {
             onClick={() => setLanguage("en")}
             aria-pressed={language === "en"}
             aria-label={t.languageEnglishLabel}
+            data-testid="lang-en"
           >
             EN
           </button>
@@ -349,6 +351,7 @@ export default function App() {
             onClick={() => setLanguage("pl")}
             aria-pressed={language === "pl"}
             aria-label={t.languagePolishLabel}
+            data-testid="lang-pl"
           >
             PL
           </button>
@@ -358,6 +361,7 @@ export default function App() {
             onClick={() => setLanguage("es")}
             aria-pressed={language === "es"}
             aria-label={t.languageSpanishLabel}
+            data-testid="lang-es"
           >
             ES
           </button>
@@ -367,6 +371,7 @@ export default function App() {
             onClick={() => setLanguage("de")}
             aria-pressed={language === "de"}
             aria-label={t.languageGermanLabel}
+            data-testid="lang-de"
           >
             DE
           </button>
@@ -377,6 +382,7 @@ export default function App() {
           onClick={handleToggleTheme}
           aria-label={theme === "dark" ? t.themeLightLabel : t.themeDarkLabel}
           aria-pressed={theme === "dark"}
+          data-testid="theme-toggle"
         >
           {theme === "dark" ? t.themeLightLabel : t.themeDarkLabel}
         </button>
@@ -399,7 +405,7 @@ export default function App() {
           <main className="card">
             <header className="header">
               <p className="eyebrow">{t.appName}</p>
-              <h1>{t.title}</h1>
+              <h1 data-testid="app-title">{t.title}</h1>
               <p className="subtitle">{t.subtitle}</p>
             </header>
 
@@ -441,6 +447,7 @@ export default function App() {
                     type="file"
                     accept="audio/*"
                     onChange={handleFileChange}
+                    data-testid="audio-input"
                   />
                 </label>
 
@@ -469,6 +476,7 @@ export default function App() {
                   className="primary"
                   onClick={handleAnalyzeRequest}
                   disabled={!selectedFile}
+                  data-testid="analyze-button"
                 >
                   {t.analyzeButton}
                 </button>
@@ -488,7 +496,9 @@ export default function App() {
             {stage === "result" && (
               <div className="stage">
                 <p className="result-label">{t.resultLabel}</p>
-                <p className="result-text">{resultText}</p>
+                <p className="result-text" data-testid="analysis-result">
+                  {resultText}
+                </p>
                 <button type="button" className="ghost" onClick={handleReset}>
                   {t.analyzeAnotherButton}
                 </button>
@@ -526,7 +536,12 @@ export default function App() {
       </div>
 
       {showDisclaimer && (
-        <div className="modal-backdrop" role="dialog" aria-modal="true">
+        <div
+          className="modal-backdrop"
+          role="dialog"
+          aria-modal="true"
+          data-testid="disclaimer-modal"
+        >
           <div className="modal">
             <h2>{t.disclaimerTitle}</h2>
             <p className="modal-text">{t.disclaimerBody}</p>
@@ -535,10 +550,16 @@ export default function App() {
                 type="button"
                 className="ghost"
                 onClick={handleDismissDisclaimer}
+                data-testid="disclaimer-cancel"
               >
                 {t.disclaimerSecondary}
               </button>
-              <button type="button" className="primary" onClick={handleConfirmAnalyze}>
+              <button
+                type="button"
+                className="primary"
+                onClick={handleConfirmAnalyze}
+                data-testid="disclaimer-confirm"
+              >
                 {t.disclaimerPrimary}
               </button>
             </div>
