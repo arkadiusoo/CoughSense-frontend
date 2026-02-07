@@ -38,6 +38,7 @@ export const translations = {
     recordingFormatUnsupported: "Recording in WAV/MP3 is not supported here.",
     resultLabels: {
       "COVID-19": "COVID-19",
+      healthy_cough: "Healthy cough",
       healthy: "Healthy cough",
       symptomatic: "Symptomatic of COVID-19 cough",
       Healthy: "Healthy breathing",
@@ -48,6 +49,7 @@ export const translations = {
       Bronchiectasis: "Bronchiectasis",
       Pneumonia: "Pneumonia",
       Bronchiolitis: "Bronchiolitis",
+      reject: "Unrecognized sample",
     },
     disclaimerTitle: "Important notice",
     disclaimerBody:
@@ -107,6 +109,7 @@ export const translations = {
     recordingFormatUnsupported: "Nagrywanie w WAV/MP3 nie jest tu obsługiwane.",
     resultLabels: {
       "COVID-19": "COVID-19",
+      healthy_cough: "Zdrowy kaszel",
       healthy: "Zdrowy kaszel",
       symptomatic: "Kaszel o charakterze COVID-19",
       Healthy: "Zdrowy oddech",
@@ -117,6 +120,7 @@ export const translations = {
       Bronchiectasis: "Rozstrzenie oskrzeli",
       Pneumonia: "Zapalenie płuc",
       Bronchiolitis: "Zapalenie oskrzelików",
+      reject: "Nieprawidłowa próbka",
     },
     disclaimerTitle: "Ważna informacja",
     disclaimerBody:
@@ -177,6 +181,7 @@ export const translations = {
     recordingFormatUnsupported: "La grabación en WAV/MP3 no es compatible aquí.",
     resultLabels: {
       "COVID-19": "COVID-19",
+      healthy_cough: "Tos saludable",
       healthy: "Tos saludable",
       symptomatic: "Tos sintomática de COVID-19",
       Healthy: "Respiración saludable",
@@ -187,6 +192,7 @@ export const translations = {
       Bronchiectasis: "Bronquiectasias",
       Pneumonia: "Neumonía",
       Bronchiolitis: "Bronquiolitis",
+      reject: "Muestra no reconocida",
     },
     disclaimerTitle: "Aviso importante",
     disclaimerBody:
@@ -247,6 +253,7 @@ export const translations = {
     recordingFormatUnsupported: "Aufnahme in WAV/MP3 wird hier nicht unterstützt.",
     resultLabels: {
       "COVID-19": "COVID-19",
+      healthy_cough: "Gesunder Husten",
       healthy: "Gesunder Husten",
       symptomatic: "Symptomatischer Husten bei COVID-19",
       Healthy: "Gesunde Atmung",
@@ -257,6 +264,7 @@ export const translations = {
       Bronchiectasis: "Bronchiektasen",
       Pneumonia: "Pneumonie",
       Bronchiolitis: "Bronchiolitis",
+      reject: "Nicht erkennbare Probe",
     },
     disclaimerTitle: "Wichtiger Hinweis",
     disclaimerBody:
